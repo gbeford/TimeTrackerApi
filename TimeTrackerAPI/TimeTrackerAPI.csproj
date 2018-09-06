@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="Models\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180822131727_initalSetup.cs" />
+    <Compile Remove="Migrations\20180905002252_changeStudentIDName.cs" />
+    <Compile Remove="Migrations\20180822135706_initalSetup.cs" />
+    <Compile Remove="Migrations\TimeTrackerDbContextModelSnapshot.cs" />
+  </ItemGroup>
+</Project>
