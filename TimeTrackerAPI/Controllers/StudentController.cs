@@ -72,7 +72,7 @@ namespace TimeTrackerAPI.Controllers
             return oldStudent;
         }
 
-        [HttpPut("{id")]
+        [HttpPut("SignIn/{id}")]
         public Student SignIn(int id)
         {
             var student = ctx.Students.Find(id);
@@ -85,17 +85,28 @@ namespace TimeTrackerAPI.Controllers
         }
 
 
-        [HttpPut("{id")]
+        [HttpPut("SignOut/{id}")]
         public Student SignOut(int id)
         {
             var student = ctx.Students.Find(id);
             if (student != null)
             {
+                var signin = student.SignInTime.Value;
                 student.SignInTime = null;
                 ctx.Update(student);
+
+                // TODO create time records here...
+                var timeRecord = new StudentTime();
+                timeRecord.CheckIn = signin;
+                timeRecord.CheckOut = DateTime.Now;
+                timeRecord.CreateDateTime = DateTime.Now;
+                timeRecord.StudentId = student.StudentId;
+                timeRecord.TotalHrs = Convert.ToDecimal((timeRecord.CheckOut - timeRecord.CheckOut).TotalHours);
+                ctx.StudentTimes.Add(timeRecord);
+
                 ctx.SaveChanges();
             }
-            // TODO create time records here...
+
             return student;
         }
     }
