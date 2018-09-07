@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackerAPI.Models;
 using Newtonsoft.Json;
+using TimeTrackerAPI.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,10 +17,12 @@ namespace TimeTrackerAPI.Controllers
     {
 
         private readonly TimeTrackerDbContext ctx;
+        private readonly IStudentService svc;
 
-        public StudentController(TimeTrackerDbContext context)
+        public StudentController(TimeTrackerDbContext context, IStudentService service)
         {
             ctx = context;
+            svc = service;
         }
 
         // Get student list
@@ -72,42 +75,43 @@ namespace TimeTrackerAPI.Controllers
             return oldStudent;
         }
 
-        [HttpPut("SignIn/{id}")]
-        public Student SignIn(int id)
+        [HttpPost("SignIn")]
+        public IActionResult SignIn([FromBody] int id)
         {
-            var student = ctx.Students.Find(id);
+            var student = svc.SignInStudent(id);
+
             if (student != null) {
-                student.SignInTime = DateTime.Now;
-                ctx.Update(student);
-                ctx.SaveChanges();
+                return Ok(student);
             }
-            return student;
+            return BadRequest("Student Not Found");
         }
 
-
-        [HttpPut("SignOut/{id}")]
-        public Student SignOut(int id)
+        [HttpPost("SignOut")]
+        public IActionResult SignOut([FromBody] int id)
         {
-            var student = ctx.Students.Find(id);
+            var student = svc.SignOutStudent(id);
+
             if (student != null)
             {
-                var signin = student.SignInTime.Value;
-                student.SignInTime = null;
-                ctx.Update(student);
-
-                // TODO create time records here...
-                var timeRecord = new StudentTime();
-                timeRecord.CheckIn = signin;
-                timeRecord.CheckOut = DateTime.Now;
-                timeRecord.CreateDateTime = DateTime.Now;
-                timeRecord.StudentId = student.StudentId;
-                timeRecord.TotalHrs = Convert.ToDecimal((timeRecord.CheckOut - timeRecord.CheckOut).TotalHours);
-                ctx.StudentTimes.Add(timeRecord);
-
-                ctx.SaveChanges();
+                    return Ok(student);
+            }
+            else
+            {
+                return BadRequest("Student Not Signed In or Not Found");
             }
 
-            return student;
+        }
+
+        [HttpPost("SignOutAll")]
+        public IActionResult SignOutAll()
+        {
+            var signedIn = ctx.Students.Where(s => s.SignInTime.HasValue);
+            foreach (var student in signedIn)
+            {
+                svc.SignOutStudent(student.StudentId);
+            }
+
+            return Ok();
         }
     }
 }

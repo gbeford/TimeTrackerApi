@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TimeTrackerAPI.Models;
+using TimeTrackerAPI.Services;
 
 namespace TimeTrackerAPI
 {
@@ -26,7 +27,7 @@ namespace TimeTrackerAPI
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
             // Add framework services.
             //services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -43,6 +44,8 @@ namespace TimeTrackerAPI
                         .Build()
                 );
             });
+
+            services.AddTransient<IStudentService, StudentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +66,8 @@ namespace TimeTrackerAPI
             app.UseCors("CorsPolicy");
             app.UseMvc();
             //app.UseCors(b => b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-          
+
+
 
         }
     }
