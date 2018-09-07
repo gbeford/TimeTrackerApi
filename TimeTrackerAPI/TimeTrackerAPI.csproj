@@ -13,11 +13,4 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20180822131727_initalSetup.cs" />
-    <Compile Remove="Migrations\20180905002252_changeStudentIDName.cs" />
-    <Compile Remove="Migrations\20180822135706_initalSetup.cs" />
-    <Compile Remove="Migrations\TimeTrackerDbContextModelSnapshot.cs" />
-  </ItemGroup>
 </Project>

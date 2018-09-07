@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeTrackerAPI.Models;
 
 namespace TimeTrackerAPI.Migrations
 {
     [DbContext(typeof(TimeTrackerDbContext))]
-    partial class TimeTrackerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180906231355_AddSignInTimeToStudent")]
+    partial class AddSignInTimeToStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +61,7 @@ namespace TimeTrackerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("Created");
+                    b.Property<DateTime>("Created");
 
                     b.Property<string>("Email");
 
@@ -71,7 +73,7 @@ namespace TimeTrackerAPI.Migrations
 
                     b.Property<DateTime?>("SignInTime");
 
-                    b.Property<DateTime?>("Updated");
+                    b.Property<DateTime>("Updated");
 
                     b.HasKey("StudentId");
 
