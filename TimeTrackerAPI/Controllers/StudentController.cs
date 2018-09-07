@@ -47,6 +47,7 @@ namespace TimeTrackerAPI.Controllers
         public Student Post([FromBody]Student value)
         {
             value.Created = DateTime.Now;
+            value.Updated = DateTime.Now;
             ctx.Students.Add(value);
             ctx.SaveChanges();
             return value;
@@ -71,7 +72,31 @@ namespace TimeTrackerAPI.Controllers
             return oldStudent;
         }
 
+        [HttpPut("{id")]
+        public Student SignIn(int id)
+        {
+            var student = ctx.Students.Find(id);
+            if (student != null) {
+                student.SignInTime = DateTime.Now;
+                ctx.Update(student);
+                ctx.SaveChanges();
+            }
+            return student;
+        }
 
 
+        [HttpPut("{id")]
+        public Student SignOut(int id)
+        {
+            var student = ctx.Students.Find(id);
+            if (student != null)
+            {
+                student.SignInTime = null;
+                ctx.Update(student);
+                ctx.SaveChanges();
+            }
+            // TODO create time records here...
+            return student;
+        }
     }
 }
