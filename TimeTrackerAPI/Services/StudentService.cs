@@ -27,7 +27,7 @@ namespace TimeTrackerAPI.Services
             return student;
         }
 
-        public Student SignOutStudent(int StudentId)
+        public Student SignOutStudent(int StudentId, bool admin = false)
         {
             var student = ctx.Students.Find(StudentId);
             if (student != null)
@@ -41,7 +41,7 @@ namespace TimeTrackerAPI.Services
                     // TODO create time records here...
                     var timeRecord = new StudentTime();
                     timeRecord.CheckIn = signin;
-                    timeRecord.CheckOut = DateTime.Now;
+                    timeRecord.CheckOut = admin ? signin.AddMinutes(1) : DateTime.Now;
                     timeRecord.CreateDateTime = DateTime.Now;
                     timeRecord.StudentId = student.StudentId;
                     timeRecord.TotalHrs = Convert.ToDecimal((timeRecord.CheckOut - signin).TotalMinutes);

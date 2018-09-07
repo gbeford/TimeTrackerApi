@@ -108,7 +108,7 @@ namespace TimeTrackerAPI.Controllers
             var signedIn = ctx.Students.Where(s => s.SignInTime.HasValue);
             foreach (var student in signedIn)
             {
-                svc.SignOutStudent(student.StudentId);
+                svc.SignOutStudent(student.StudentId, admin: true);
             }
 
             return Ok();
