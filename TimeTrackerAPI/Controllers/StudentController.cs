@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TimeTrackerAPI.Models;
 using Newtonsoft.Json;
 using TimeTrackerAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,36 +32,45 @@ namespace TimeTrackerAPI.Controllers
         public IEnumerable<Student> Get()
         {
             //var teams = ctx.Teams.Where(t => t.TeamName.Contains("Shrewsbury")).OrderBy(t => t.TeamNumber).ToList();
-            var student = ctx.Students;
-            return student.ToList();
+            var students = ctx.Students.Include(s => s.StudentTimes);
+            return students.ToList();
         }
 
         // Get a student
         // GET api/values/5
         [HttpGet("{id}")]
-        public Student Get(int id)
+        public async Task<ActionResult<Student>> Get(int id)
         {
-            var student = ctx.Students.Find(id);
-            return student;
+            var student = await ctx.Students.Include(s => s.StudentTimes).SingleOrDefaultAsync(s => s.StudentId == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
         }
 
         // Create a student
         // POST api/values
         [HttpPost]
-        public Student Post([FromBody]Student value)
+        public async Task<ActionResult<Student>> Post([FromBody]Student value)
         {
             value.Created = DateTime.Now;
             value.Updated = DateTime.Now;
             ctx.Students.Add(value);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
             return value;
         }
 
         // Update student
         // PUT api/values/5
         [HttpPut("{id}")]
-        public Student Put(int id, [FromBody]Student value)
+        public async Task<ActionResult<Student>> Put(int id, [FromBody]Student value)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var oldStudent = ctx.Students.Find(id);
             if (oldStudent != null)
             {
@@ -70,9 +80,9 @@ namespace TimeTrackerAPI.Controllers
                 oldStudent.Grade = value.Grade;
                 oldStudent.Updated = DateTime.Now;
                 ctx.Update(oldStudent);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
-            return oldStudent;
+            return Ok(oldStudent);
         }
 
         [HttpPost("SignIn")]

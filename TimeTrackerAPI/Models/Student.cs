@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TimeTrackerAPI.Models
 {
@@ -19,5 +20,7 @@ namespace TimeTrackerAPI.Models
                 return SignInTime.HasValue;
             }
         }
+
+        public ICollection<StudentTime> StudentTimes { get; set; }}
     }
 }
