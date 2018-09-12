@@ -89,8 +89,6 @@ namespace TimeTrackerAPI.Controllers
         {
             try
             {
-
-
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
