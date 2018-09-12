@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace TimeTrackerAPI.Models
 {
@@ -22,5 +24,16 @@ namespace TimeTrackerAPI.Models
         }
 
         public ICollection<StudentTime> StudentTimes { get; set; }
+
+        private ICollection<StudentMessage> StudentMessages { get; set; }
+
+        [NotMapped]
+        public IEnumerable<Message> Messages => StudentMessages.Select(m => m.Message);
+
+        public Student()
+        {
+            StudentTimes = new List<StudentTime>();
+            StudentMessages = new List<StudentMessage>();
+        }
     }
 }

@@ -24,6 +24,17 @@ namespace TimeTrackerAPI.Models
             modelBuilder.Entity<StudentTime>()
                         .Property(p => p.TotalHrs)
                         .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<StudentMessage>()
+                .HasKey(t => new { t.StudentId, t.MessageId });
+
+            modelBuilder.Entity<StudentMessage>()
+                .HasOne(sm => sm.Student)
+                .WithMany("StudentMessages");
+
+            modelBuilder.Entity<StudentMessage>()
+                .HasOne(sm => sm.Message)
+                .WithMany("StudentMessages");
         }
 
     }

@@ -32,8 +32,8 @@ namespace TimeTrackerAPI.Controllers
         public IEnumerable<Student> Get()
         {
             //var teams = ctx.Teams.Where(t => t.TeamName.Contains("Shrewsbury")).OrderBy(t => t.TeamNumber).ToList();
-            var students = ctx.Students.Include(s => s.StudentTimes);
-            return students.ToList();
+            var students = ctx.Students.Include(s => s.StudentTimes).Include("StudentMessages.Message").ToList();
+            return students;
         }
 
         // Get a student

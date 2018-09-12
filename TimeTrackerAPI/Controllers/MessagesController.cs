@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TimeTrackerAPI.Models;
 
+// dotnet aspnet-codegenerator controller -name MessagesController -api -async -m Message -dc TimeTrackerDbContext -outDir Controllers
+
 namespace TimeTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -85,15 +87,22 @@ namespace TimeTrackerAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostMessage([FromBody] Message message)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                _context.Messages.Add(message);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetMessage", new { id = message.MessageID }, message);
+            } catch( Exception ex) {
+                return BadRequest(ex);
             }
-
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetMessage", new { id = message.MessageID }, message);
         }
 
         // DELETE: api/Messages/5
