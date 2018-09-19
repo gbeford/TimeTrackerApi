@@ -13,5 +13,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" />
+    <PackageReference Include="Swashbuckle.aspnetcore" Version="3.0.0" />
   </ItemGroup>
 </Project>

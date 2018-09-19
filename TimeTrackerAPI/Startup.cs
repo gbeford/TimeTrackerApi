@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using TimeTrackerAPI.Models;
 using TimeTrackerAPI.Services;
 
@@ -36,6 +37,11 @@ namespace TimeTrackerAPI
                         options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info() { Title = "Time Tracker", Version = "v1" });
+            });
+
             var connection = @"Server=localhost;Database=timeTracker;User Id=sa;Password=Passw0rd;";
             services.AddDbContext<TimeTrackerDbContext>(options => options.UseSqlServer(connection));
             services.AddCors(options =>
@@ -58,6 +64,11 @@ namespace TimeTrackerAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Time Tracker API");
+                });
             }
             else
             {
