@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TimeTrackerAPI.Models;
 
@@ -15,20 +16,20 @@ namespace TimeTrackerAPI.Services
             ctx = Context;
         }
 
-        public Student SignInStudent(int StudentId)
+        public async Task<Student> SignInStudent(int StudentId)
         {
-            var student = ctx.Students.Find(StudentId);
+            var student = await ctx.Students.FindAsync(StudentId);
             if (student != null)
             {
                 student.SignInTime = DateTime.Now;
                 ctx.Update(student);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
 
             return student;
         }
 
-        public Student SignOutStudent(int StudentId, bool admin = false)
+        public async Task<Student> SignOutStudent(int StudentId, bool admin = false)
         {
             var student = ctx.Students.Include(s => s.StudentTimes).SingleOrDefault(s => s.StudentId == StudentId);
             if (student != null)
@@ -47,7 +48,7 @@ namespace TimeTrackerAPI.Services
 
                     ctx.Update(student);
 
-                    ctx.SaveChanges();
+                    await ctx.SaveChangesAsync();
                     return student;
                 }
                 else

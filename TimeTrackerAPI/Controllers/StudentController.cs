@@ -86,9 +86,9 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignIn")]
-        public IActionResult SignIn([FromBody] int id)
+        public async Task<IActionResult> SignIn([FromBody] int id)
         {
-            var student = svc.SignInStudent(id);
+            var student = await svc.SignInStudent(id);
 
             if (student != null) {
                 return Ok(student);
@@ -97,9 +97,9 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignOut")]
-        public IActionResult SignOut([FromBody] int id)
+        public async Task<IActionResult> SignOut([FromBody] int id)
         {
-            var student = svc.SignOutStudent(id);
+            var student = await svc.SignOutStudent(id);
 
             if (student != null)
             {
@@ -113,12 +113,12 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignOutAll")]
-        public IActionResult SignOutAll()
+        public async Task<IActionResult> SignOutAll()
         {
             var signedIn = ctx.Students.Where(s => s.SignInTime.HasValue);
             foreach (var student in signedIn)
             {
-                svc.SignOutStudent(student.StudentId, admin: true);
+                await svc.SignOutStudent(student.StudentId, admin: true);
             }
 
             return Ok();

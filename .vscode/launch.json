@@ -13,7 +13,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/TimeTrackerAPI",
             "stopAtEntry": false,
-            // "internalConsoleOptions": "openOnSessionStart",
+            "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
                 "args": "${auto-detect-url}",
@@ -35,7 +35,9 @@
                 "/Views": "${workspaceFolder}/Views"
             },
             "logging": {
-                "engineLogging": true
+                "programOutput": true,
+                "exceptions": true,
+                "engineLogging": false
             }
         },
         {
