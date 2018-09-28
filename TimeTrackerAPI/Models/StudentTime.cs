@@ -1,10 +1,13 @@
 ﻿using System;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TimeTrackerAPI.Models
 {
     public class StudentTime
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StudentTimeID { get; set; }
         public int StudentId { get; set; }
         public DateTime CheckIn { get; set; }

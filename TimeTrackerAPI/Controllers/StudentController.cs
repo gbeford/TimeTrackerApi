@@ -32,7 +32,7 @@ namespace TimeTrackerAPI.Controllers
         public IEnumerable<Student> Get()
         {
             //var teams = ctx.Teams.Where(t => t.TeamName.Contains("Shrewsbury")).OrderBy(t => t.TeamNumber).ToList();
-            var students = ctx.Students.Include(s => s.StudentTimes).Include("StudentMessages.Message").ToList();
+            var students = ctx.Students.Include(s => s.StudentTimes).Include(s => s.StudentMessages).ToList();
             return students;
         }
 
@@ -41,10 +41,15 @@ namespace TimeTrackerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> Get(int id)
         {
-            var student = await ctx.Students.Include(s => s.StudentTimes).SingleOrDefaultAsync(s => s.StudentId == id);
+            var student = await ctx.Students.SingleOrDefaultAsync(s => s.StudentId == id);
             if (student == null)
             {
                 return NotFound();
+            }
+            var messageLink = student.StudentMessages.ToList();
+            foreach(var link in messageLink)
+            {
+                var text = link.Message.MessageText;
             }
             return Ok(student);
         }
@@ -120,6 +125,14 @@ namespace TimeTrackerAPI.Controllers
             {
                 await svc.SignOutStudent(student.StudentId, admin: true);
             }
+
+            return Ok();
+        }
+
+        [HttpPost("AddMessageToStudent/{studentId}")]
+        public IActionResult AddMessageToStudent(int studentId, [FromBody] int messageId)
+        {
+            svc.AddMessageToStudent(studentId, messageId);
 
             return Ok();
         }

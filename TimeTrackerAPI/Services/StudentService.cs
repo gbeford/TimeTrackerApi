@@ -59,5 +59,18 @@ namespace TimeTrackerAPI.Services
 
             return null;
         }
+
+        public void AddMessageToStudent(int StudentId, int MessageId)
+        {
+            var student = ctx.Students.First(w => w.StudentId == StudentId);
+            var studentMessage = new StudentMessage()
+            {
+                StudentId = StudentId,
+                MessageId = MessageId
+            };
+
+            student.StudentMessages.Add(studentMessage);
+            ctx.SaveChanges();
+        }
     }
 }

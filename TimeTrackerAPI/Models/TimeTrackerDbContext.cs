@@ -30,11 +30,11 @@ namespace TimeTrackerAPI.Models
 
             modelBuilder.Entity<StudentMessage>()
                 .HasOne(sm => sm.Student)
-                .WithMany("StudentMessages");
+                .WithMany(m => m.StudentMessages);
 
             modelBuilder.Entity<StudentMessage>()
                 .HasOne(sm => sm.Message)
-                .WithMany("StudentMessages");
+                .WithMany(m => m.StudentMessages);
         }
 
     }
