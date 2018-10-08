@@ -59,7 +59,7 @@ namespace TimeTrackerAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, TimeTrackerDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -82,7 +82,7 @@ namespace TimeTrackerAPI
             app.UseMvc();
             //app.UseCors(b => b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-
+            context.Database.Migrate();
 
         }
     }

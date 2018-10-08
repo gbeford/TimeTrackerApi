@@ -31,12 +31,12 @@ namespace TimeTrackerAPI.Controllers
 
         // GET: api/Messages/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMessage([FromRoute] int id)
+        public async Task<IActionResult> GetMessage(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     return BadRequest(ModelState);
+            // }
 
             var message = await _context.Messages.FindAsync(id);
 
@@ -50,12 +50,12 @@ namespace TimeTrackerAPI.Controllers
 
         // PUT: api/Messages/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMessage([FromRoute] int id, [FromBody] Message message)
+        public async Task<IActionResult> PutMessage(int id, Message message)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     return BadRequest(ModelState);
+            // }
 
             if (id != message.MessageID)
             {
@@ -85,14 +85,14 @@ namespace TimeTrackerAPI.Controllers
 
         // POST: api/Messages
         [HttpPost]
-        public async Task<IActionResult> PostMessage([FromBody] Message message)
+        public async Task<IActionResult> PostMessage(Message message)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                // if (!ModelState.IsValid)
+                // {
+                //     return BadRequest(ModelState);
+                // }
 
                 _context.Messages.Add(message);
                 await _context.SaveChangesAsync();
@@ -105,7 +105,7 @@ namespace TimeTrackerAPI.Controllers
 
         // DELETE: api/Messages/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMessage([FromRoute] int id)
+        public async Task<IActionResult> DeleteMessage(int id)
         {
             if (!ModelState.IsValid)
             {

@@ -11,6 +11,7 @@ namespace TimeTrackerAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MessageID { get; set; }
+        [Required]
         public string MessageText { get; set; }
         public bool Show { get; set; }
         public int SortOrder { get; set; }

@@ -72,5 +72,19 @@ namespace TimeTrackerAPI.Services
             student.StudentMessages.Add(studentMessage);
             ctx.SaveChanges();
         }
+
+        public void RemoveMessageFromStudent(int StudentId, int MessageId)
+        {
+            var student = ctx.Students.Include(i => i.StudentMessages).First(w => w.StudentId == StudentId);
+            if (student != null)
+            {
+                var message = student.StudentMessages.First(s => s.MessageId == MessageId);
+                if (message != null)
+                {
+                    student.StudentMessages.Remove(message);
+                    ctx.SaveChanges();
+                }
+            }
+        }
     }
 }

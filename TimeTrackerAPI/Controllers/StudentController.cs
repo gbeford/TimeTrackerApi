@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace TimeTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
-
+    [ApiController]
     public class StudentController : Controller
     {
 
@@ -57,7 +57,7 @@ namespace TimeTrackerAPI.Controllers
         // Create a student
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult<Student>> Post([FromBody]Student value)
+        public async Task<ActionResult<Student>> Post(Student value)
         {
             value.Created = DateTime.Now;
             value.Updated = DateTime.Now;
@@ -69,7 +69,7 @@ namespace TimeTrackerAPI.Controllers
         // Update student
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Student>> Put(int id, [FromBody]Student value)
+        public async Task<ActionResult<Student>> Put(int id, Student value)
         {
             if (!ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn([FromBody] int id)
+        public async Task<IActionResult> SignIn(int id)
         {
             var student = await svc.SignInStudent(id);
 
@@ -102,7 +102,7 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignOut")]
-        public async Task<IActionResult> SignOut([FromBody] int id)
+        public async Task<IActionResult> SignOut(int id)
         {
             var student = await svc.SignOutStudent(id);
 
@@ -130,10 +130,17 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("AddMessageToStudent/{studentId}")]
-        public IActionResult AddMessageToStudent(int studentId, [FromBody] int messageId)
+        public IActionResult AddMessageToStudent(int studentId, int messageId)
         {
             svc.AddMessageToStudent(studentId, messageId);
 
+            return Ok();
+        }
+
+        [HttpPost("RemoveMessageFromStudent/{studentId}")]
+        public IActionResult RemoveMessageFromStudent(int studentId, int messageId)
+        {
+            svc.RemoveMessageFromStudent(studentId, messageId);
             return Ok();
         }
     }
