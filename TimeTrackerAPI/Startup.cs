@@ -42,8 +42,20 @@ namespace TimeTrackerAPI
                 c.SwaggerDoc("v1", new Info() { Title = "Time Tracker", Version = "v1" });
             });
 
-            var connection = @"Server=localhost;Database=timeTracker;User Id=sa;Password=Passw0rd;";
-            services.AddDbContext<TimeTrackerDbContext>(options => options.UseSqlServer(connection));
+            var database = Configuration["database"];
+            var connectString = Configuration[$"ConnectionStrings:{database}"];
+
+            switch (database)
+            {
+                case "MSSql":
+                    services.AddEntityFrameworkSqlServer();
+                    services.AddDbContext<TimeTrackerDbContext>(options => options.UseSqlServer(connectString));
+                    break;
+                case "postgresql":
+                    services.AddEntityFrameworkNpgsql();
+                    services.AddDbContext<TimeTrackerDbContext>(options => options.UseNpgsql(connectString));
+                    break;
+            }
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -80,7 +92,6 @@ namespace TimeTrackerAPI
 
             app.UseCors("CorsPolicy");
             app.UseMvc();
-            //app.UseCors(b => b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             context.Database.Migrate();
 
