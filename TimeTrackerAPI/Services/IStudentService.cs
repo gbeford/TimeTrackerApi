@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TimeTrackerAPI.Models;
 
@@ -8,7 +9,7 @@ namespace TimeTrackerAPI.Services
     {
         Task<Student> SignInStudent(int StudentId);
         Task<Student> SignOutStudent(int StudentId, bool admin = false);
-        void AddMessageToStudent(int StudentId, int MessageId);
+        void AddMessageToStudent(int StudentId, List<int> MessageIds);
         void RemoveMessageFromStudent(int studnetId, int messageId);
     }
 }

@@ -129,10 +129,10 @@ namespace TimeTrackerAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("AddMessageToStudent/{studentId}")]
-        public IActionResult AddMessageToStudent(int studentId, [FromBody] int messageId)
+        [HttpPost("AddMessagesToStudent/{studentId}")]
+        public IActionResult AddMessagesToStudent(int studentId, [FromBody] List<int> messageIds)
         {
-            svc.AddMessageToStudent(studentId, messageId);
+            svc.AddMessageToStudent(studentId, messageIds);
 
             return Ok();
         }
