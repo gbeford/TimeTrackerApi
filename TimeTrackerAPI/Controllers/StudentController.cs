@@ -32,7 +32,7 @@ namespace TimeTrackerAPI.Controllers
         public IEnumerable<Student> Get()
         {
             //var teams = ctx.Teams.Where(t => t.TeamName.Contains("Shrewsbury")).OrderBy(t => t.TeamNumber).ToList();
-            var students = ctx.Students.Include(s => s.StudentTimes).Include(s => s.StudentMessages).ThenInclude(m => m.Message).ToList();
+            var students = ctx.Students.Include(s => s.StudentMessages).ThenInclude(m => m.Message).ToList();
             return students;
         }
 
@@ -57,7 +57,7 @@ namespace TimeTrackerAPI.Controllers
         // Create a student
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult<Student>> Post(Student value)
+        public async Task<ActionResult<Student>> Post([FromBody] Student value)
         {
             value.Created = DateTime.Now;
             value.Updated = DateTime.Now;
@@ -69,7 +69,7 @@ namespace TimeTrackerAPI.Controllers
         // Update student
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Student>> Put(int id, Student value)
+        public async Task<ActionResult<Student>> Put(int id, [FromBody] Student value)
         {
             if (!ModelState.IsValid)
             {
@@ -91,9 +91,9 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(int id)
+        public async Task<IActionResult> SignIn([FromBody] int studentId)
         {
-            var student = await svc.SignInStudent(id);
+            var student = await svc.SignInStudent(studentId);
 
             if (student != null) {
                 return Ok(student);
@@ -102,9 +102,9 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignOut")]
-        public async Task<IActionResult> SignOut(int id)
+        public async Task<IActionResult> SignOut([FromBody] int studentId)
         {
-            var student = await svc.SignOutStudent(id);
+            var student = await svc.SignOutStudent(studentId);
 
             if (student != null)
             {
@@ -130,7 +130,7 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("AddMessageToStudent/{studentId}")]
-        public IActionResult AddMessageToStudent(int studentId, int messageId)
+        public IActionResult AddMessageToStudent(int studentId, [FromBody] int messageId)
         {
             svc.AddMessageToStudent(studentId, messageId);
 
@@ -138,7 +138,7 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("RemoveMessageFromStudent/{studentId}")]
-        public IActionResult RemoveMessageFromStudent(int studentId, int messageId)
+        public IActionResult RemoveMessageFromStudent(int studentId, [FromBody] int messageId)
         {
             svc.RemoveMessageFromStudent(studentId, messageId);
             return Ok();
