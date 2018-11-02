@@ -16,9 +16,9 @@ namespace TimeTrackerAPI.Services
             ctx = Context;
         }
 
-        public async Task<Student> SignInStudent(int StudentId)
+        public async Task<Student> SignInStudent(int Id)
         {
-            var student = await ctx.Students.FindAsync(StudentId);
+            var student = await ctx.Students.FindAsync(Id);
             if (student != null)
             {
                 student.SignInTime = DateTime.Now;
@@ -29,9 +29,9 @@ namespace TimeTrackerAPI.Services
             return student;
         }
 
-        public async Task<Student> SignOutStudent(int StudentId, bool admin = false)
+        public async Task<Student> SignOutStudent(int Id, bool admin = false)
         {
-            var student = ctx.Students.Include(s => s.StudentTimes).SingleOrDefault(s => s.StudentId == StudentId);
+            var student = ctx.Students.Include(s => s.StudentTimes).SingleOrDefault(s => s.Id == Id);
             if (student != null)
             {
                 if (student.SignInTime.HasValue)
@@ -60,14 +60,14 @@ namespace TimeTrackerAPI.Services
             return null;
         }
 
-        public void AddMessagesToStudent(int StudentId, List<int> MessageIds)
+        public void AddMessagesToStudent(int Id, List<int> MessageIds)
         {
-            var student = ctx.Students.First(w => w.StudentId == StudentId);
+            var student = ctx.Students.First(w => w.Id == Id);
             foreach (var messageId in MessageIds)
             {
                 var studentMessage = new StudentMessage()
                 {
-                    StudentId = StudentId,
+                    StudentId = Id,
                     MessageId = messageId
                 };
 
@@ -76,9 +76,9 @@ namespace TimeTrackerAPI.Services
             ctx.SaveChanges();
         }
 
-        public void RemoveMessageFromStudent(int StudentId, int MessageId)
+        public void RemoveMessageFromStudent(int Id, int MessageId)
         {
-            var student = ctx.Students.Include(i => i.StudentMessages).First(w => w.StudentId == StudentId);
+            var student = ctx.Students.Include(i => i.StudentMessages).First(w => w.Id == Id);
             if (student != null)
             {
                 var message = student.StudentMessages.First(s => s.MessageId == MessageId);
