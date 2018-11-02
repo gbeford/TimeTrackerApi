@@ -10,6 +10,7 @@ namespace TimeTrackerAPI.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public int StudentId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,7 +19,6 @@ namespace TimeTrackerAPI.Models
         public DateTime? Created { get; set; }
         public DateTime? Updated { get; set; }
         public DateTime? SignInTime { get; set; }
-        public int SchoolId { get; set; }
         public bool IsSignedIn
         {
             get

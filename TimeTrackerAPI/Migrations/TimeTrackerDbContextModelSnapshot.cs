@@ -67,7 +67,7 @@ namespace TimeTrackerAPI.Migrations
 
             modelBuilder.Entity("TimeTrackerAPI.Models.Student", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("Created");
@@ -80,13 +80,13 @@ namespace TimeTrackerAPI.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<int>("SchoolId");
-
                     b.Property<DateTime?>("SignInTime");
+
+                    b.Property<int>("StudentId");
 
                     b.Property<DateTime?>("Updated");
 
-                    b.HasKey("StudentId");
+                    b.HasKey("Id");
 
                     b.ToTable("Students");
                 });

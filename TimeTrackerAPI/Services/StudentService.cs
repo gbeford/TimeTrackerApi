@@ -60,7 +60,7 @@ namespace TimeTrackerAPI.Services
             return null;
         }
 
-        public void AddMessageToStudent(int StudentId, List<int> MessageIds)
+        public void AddMessagesToStudent(int StudentId, List<int> MessageIds)
         {
             var student = ctx.Students.First(w => w.StudentId == StudentId);
             foreach (var messageId in MessageIds)

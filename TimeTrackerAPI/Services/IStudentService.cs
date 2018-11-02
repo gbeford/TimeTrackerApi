@@ -9,7 +9,7 @@ namespace TimeTrackerAPI.Services
     {
         Task<Student> SignInStudent(int StudentId);
         Task<Student> SignOutStudent(int StudentId, bool admin = false);
-        void AddMessageToStudent(int StudentId, List<int> MessageIds);
+        void AddMessagesToStudent(int StudentId, List<int> MessageIds);
         void RemoveMessageFromStudent(int studnetId, int messageId);
     }
 }
