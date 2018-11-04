@@ -52,20 +52,17 @@ namespace TimeTrackerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMessage(int id, Message message)
         {
-            // if (!ModelState.IsValid)
-            // {
-            //     return BadRequest(ModelState);
-            // }
 
-            if (id != message.MessageID)
-            {
+            var oldMessage = await _context.Messages.FindAsync(id);
+            if (oldMessage == null)
                 return BadRequest();
-            }
-
-            _context.Entry(message).State = EntityState.Modified;
+            if (oldMessage.MessageID != id)
+                return BadRequest();
 
             try
             {
+                oldMessage.MessageText = message.MessageText;
+                _context.Update(oldMessage);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
