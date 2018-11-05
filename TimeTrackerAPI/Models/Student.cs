@@ -19,6 +19,7 @@ namespace TimeTrackerAPI.Models
         public DateTime? Created { get; set; }
         public DateTime? Updated { get; set; }
         public DateTime? SignInTime { get; set; }
+        public int? SignInEventId { get; set; }
         public bool IsSignedIn
         {
             get

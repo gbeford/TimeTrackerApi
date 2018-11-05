@@ -16,12 +16,13 @@ namespace TimeTrackerAPI.Services
             ctx = Context;
         }
 
-        public async Task<Student> SignInStudent(int Id)
+        public async Task<Student> SignInStudent(int Id, int eventId)
         {
             var student = await ctx.Students.FindAsync(Id);
             if (student != null)
             {
                 student.SignInTime = DateTime.Now;
+                student.SignInEventId = eventId;
                 ctx.Update(student);
                 await ctx.SaveChangesAsync();
             }
@@ -37,13 +38,16 @@ namespace TimeTrackerAPI.Services
                 if (student.SignInTime.HasValue)
                 {
                     var signin = student.SignInTime.Value;
+                    var eventId = student.SignInEventId.Value;
                     student.SignInTime = null;
+                    student.SignInEventId = null;
 
                     var timeRecord = new StudentTime();
                     timeRecord.CheckIn = signin;
                     timeRecord.CheckOut = admin ? signin.AddMinutes(1) : DateTime.Now;
                     timeRecord.CreateDateTime = DateTime.Now;
                     timeRecord.TotalHrs = Convert.ToDecimal((timeRecord.CheckOut - signin).TotalHours);
+                    timeRecord.EventId = eventId;
                     student.StudentTimes.Add(timeRecord);
 
                     ctx.Update(student);

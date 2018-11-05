@@ -90,10 +90,10 @@ namespace TimeTrackerAPI.Controllers
             return Ok(oldStudent);
         }
 
-        [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn([FromBody] int studentId)
+        [HttpPost("SignIn/{studentId}")]
+        public async Task<IActionResult> SignIn(int studentId, [FromBody] int eventId)
         {
-            var student = await svc.SignInStudent(studentId);
+            var student = await svc.SignInStudent(studentId, eventId);
 
             if (student != null) {
                 return Ok(student);
