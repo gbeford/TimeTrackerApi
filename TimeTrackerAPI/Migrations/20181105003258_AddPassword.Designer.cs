@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TimeTrackerAPI.Models;
@@ -9,9 +10,10 @@ using TimeTrackerAPI.Models;
 namespace TimeTrackerAPI.Migrations
 {
     [DbContext(typeof(TimeTrackerDbContext))]
-    partial class TimeTrackerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181105003258_AddPassword")]
+    partial class AddPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +121,7 @@ namespace TimeTrackerAPI.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<DateTime?>("LastLogin");
+                    b.Property<DateTime>("LastLogin");
 
                     b.Property<string>("Password");
 
