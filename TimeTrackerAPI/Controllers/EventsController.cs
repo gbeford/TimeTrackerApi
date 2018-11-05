@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TimeTrackerAPI.Models;
 
 namespace TimeTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
-
-
-    public class EventController : Controller
+    [ApiController]
+    public class EventsController : Controller
     {
 
         private readonly TimeTrackerDbContext ctx;
 
-        public EventController(TimeTrackerDbContext context)
+        public EventsController(TimeTrackerDbContext context)
         {
             ctx = context;
         }
@@ -23,10 +23,10 @@ namespace TimeTrackerAPI.Controllers
         // Get event list
         // GET api/values
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public async Task<IEnumerable<Event>> Get()
         {
             var events= ctx.Events;
-            return events.ToList();
+            return await events.OrderBy(e => e.SortOrder).ToListAsync();
         }
 
     }
