@@ -21,22 +21,22 @@ namespace TimeTrackerAPI.Controllers
         }
 
         // POST: api/Auth
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] Auth auth)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        // [HttpPost("Login")]
+        // public async Task<IActionResult> Login([FromBody] Auth auth)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            var User = await _context.Users.Where(w => w.Email == auth.Email && w.Password == auth.Password).FirstOrDefaultAsync();
+        //     var User = await _context.Users.Where(w => w.Email == auth.Email && w.Password == auth.Password).FirstOrDefaultAsync();
 
-            if (User == null)
-                return BadRequest("Invalid login.");
-            User.LastLogin = DateTime.Now;
-            _context.Update(User);
-            await _context.SaveChangesAsync();
-            return new OkObjectResult(User.Role);
-        }
+        //     if (User == null)
+        //         return BadRequest("Invalid login.");
+        //     User.LastLogin = DateTime.Now;
+        //     _context.Update(User);
+        //     await _context.SaveChangesAsync();
+        //     return new OkObjectResult(User.Role);
+        // }
     }
 }

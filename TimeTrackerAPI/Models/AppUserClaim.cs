@@ -4,20 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TimeTrackerAPI.Models
 {
-    [Table("UserType", Schema = "Security")]
-    public partial class AppUserType
+    [Table("UserClaim", Schema = "Security")]
+    public partial class AppUserClaim
     {
         [Required()]
         [Key()]
-        public Guid RoleTypeId { get; set; }
+        public Guid ClaimId { get; set; }
 
         [Required()]
         public Guid UserId { get; set; }
 
         [Required()]
-        public string RoleType { get; set; }
+        public string ClaimType { get; set; }
 
         [Required()]
-        public string RoleTypeValue { get; set; }
+        public string ClaimValue { get; set; }
     }
 }

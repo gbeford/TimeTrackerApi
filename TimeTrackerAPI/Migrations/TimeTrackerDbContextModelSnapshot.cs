@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TimeTrackerAPI.Models;
 
 namespace TimeTrackerAPI.Migrations
@@ -15,9 +15,9 @@ namespace TimeTrackerAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("StudentMessage", b =>
                 {
@@ -32,10 +32,56 @@ namespace TimeTrackerAPI.Migrations
                     b.ToTable("StudentMessage");
                 });
 
+            modelBuilder.Entity("TimeTrackerAPI.Models.AppUser", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("LastLogin");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User","Security");
+                });
+
+            modelBuilder.Entity("TimeTrackerAPI.Models.AppUserClaim", b =>
+                {
+                    b.Property<Guid>("ClaimId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType")
+                        .IsRequired();
+
+                    b.Property<string>("ClaimValue")
+                        .IsRequired();
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("ClaimId");
+
+                    b.ToTable("UserClaim","Security");
+                });
+
             modelBuilder.Entity("TimeTrackerAPI.Models.Event", b =>
                 {
                     b.Property<int>("EventID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
@@ -51,7 +97,8 @@ namespace TimeTrackerAPI.Migrations
             modelBuilder.Entity("TimeTrackerAPI.Models.Message", b =>
                 {
                     b.Property<int>("MessageID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MessageText")
                         .IsRequired();
@@ -64,7 +111,8 @@ namespace TimeTrackerAPI.Migrations
             modelBuilder.Entity("TimeTrackerAPI.Models.Student", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("Created");
 
@@ -92,7 +140,8 @@ namespace TimeTrackerAPI.Migrations
             modelBuilder.Entity("TimeTrackerAPI.Models.StudentTime", b =>
                 {
                     b.Property<int>("StudentTimeID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CheckIn");
 
@@ -112,26 +161,6 @@ namespace TimeTrackerAPI.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentTimes");
-                });
-
-            modelBuilder.Entity("TimeTrackerAPI.Models.User", b =>
-                {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("DisplayName");
-
-                    b.Property<string>("Email");
-
-                    b.Property<DateTime?>("LastLogin");
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("Role");
-
-                    b.HasKey("UserID");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("StudentMessage", b =>

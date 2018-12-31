@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,8 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using TimeTrackerAPI.Models;
+using TimeTrackerAPI.Security;
 using TimeTrackerAPI.Services;
 
 namespace TimeTrackerAPI
@@ -29,6 +32,40 @@ namespace TimeTrackerAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Get JWT Token Settings From JwtSettings.json file
+            JwtSettings settings;
+            settings = GetJwtSettings();
+
+            // Create singleton of JwtSettings
+            services.AddSingleton<JwtSettings>(settings);
+
+            // Register Jwt as the Authentication service
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+            .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters =
+                new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(settings.Key)),
+                    ValidateIssuer = true,
+                    ValidIssuer = settings.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = settings.Audience,
+
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(
+                        settings.MinutesToExpiration)
+                };
+            });
+
+
             // Add framework services.
             //services.AddCors();
             services.AddMvc()
@@ -68,6 +105,7 @@ namespace TimeTrackerAPI
             });
 
             services.AddTransient<IStudentService, StudentService>();
+            services.AddTransient<ISecurityManagerService, SecurityManagerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,10 +129,21 @@ namespace TimeTrackerAPI
 
 
             app.UseCors("CorsPolicy");
+            app.UseAuthentication();
             app.UseMvc();
 
             context.Database.Migrate();
+        }
+        public JwtSettings GetJwtSettings()
+        {
+            JwtSettings settings = new JwtSettings();
 
+            settings.Key = Configuration["JwtSettings:key"];
+            settings.Audience = Configuration["JwtSettings:audience"];
+            settings.Issuer = Configuration["JwtSettings:issuer"];
+            settings.MinutesToExpiration = Convert.ToInt32(Configuration["JwtSettings:MinutesToExpiration"]);
+
+            return settings;
         }
     }
 }

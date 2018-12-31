@@ -15,9 +15,10 @@ namespace TimeTrackerAPI.Models
         public DbSet<Student> Students { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<User> Users { get; set; }
+       // public DbSet<User> Users { get; set; }
         public DbSet<StudentTime> StudentTimes { get; set; }
-
+        public DbSet<AppUser> LoginUsers { get; set; }
+        public DbSet<AppUserClaim> ClaimTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
