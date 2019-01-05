@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/TimeTrackerAPI/bin/Debug/netcoreapp2.1/TimeTrackerAPI.dll",
+            "program": "${workspaceFolder}/TimeTrackerAPI/bin/Debug/netcoreapp2.2/TimeTrackerAPI.dll",
             "args": [],
             "cwd": "${workspaceFolder}/TimeTrackerAPI",
             "stopAtEntry": false,
