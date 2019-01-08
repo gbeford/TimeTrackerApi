@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authorization;
 using TimeTrackerAPI.Models;
 using TimeTrackerAPI.Security;
 using TimeTrackerAPI.Services;
@@ -63,6 +64,12 @@ namespace TimeTrackerAPI
                     ClockSkew = TimeSpan.FromMinutes(
                         settings.MinutesToExpiration)
                 };
+            });
+            services.AddAuthorization(options =>
+            {
+                // Note: the claim tpe and value are case-sensitive
+                options.AddPolicy("CanAccess_Admin", policy =>  // must match what you use in controller
+                policy.RequireClaim("CanAccess_Admin", "true"));  // claim and value must match exaclty whats in the user claim table
             });
 
 

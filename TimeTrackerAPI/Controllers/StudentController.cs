@@ -7,6 +7,7 @@ using TimeTrackerAPI.Models;
 using Newtonsoft.Json;
 using TimeTrackerAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +15,7 @@ namespace TimeTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] // to make all api's require auth
     public class StudentController : Controller
     {
 
@@ -29,6 +31,7 @@ namespace TimeTrackerAPI.Controllers
         // Get student list
         // GET api/values
         [HttpGet]
+        // [Authorize]  // auth for only this api
         public IEnumerable<Student> Get()
         {
             //var teams = ctx.Teams.Where(t => t.TeamName.Contains("Shrewsbury")).OrderBy(t => t.TeamNumber).ToList();
@@ -39,6 +42,7 @@ namespace TimeTrackerAPI.Controllers
         // Get a student
         // GET api/values/5
         [HttpGet("{id}")]
+
         public async Task<ActionResult<Student>> Get(int id)
         {
             var student = await ctx.Students.SingleOrDefaultAsync(s => s.StudentId == id);
@@ -47,7 +51,7 @@ namespace TimeTrackerAPI.Controllers
                 return NotFound();
             }
             var messageLink = student.StudentMessages.ToList();
-            foreach(var link in messageLink)
+            foreach (var link in messageLink)
             {
                 var text = link.Message.MessageText;
             }
@@ -95,7 +99,8 @@ namespace TimeTrackerAPI.Controllers
         {
             var student = await svc.SignInStudent(studentId, eventId);
 
-            if (student != null) {
+            if (student != null)
+            {
                 return Ok(student);
             }
             return BadRequest("Student Not Found");
@@ -108,7 +113,7 @@ namespace TimeTrackerAPI.Controllers
 
             if (student != null)
             {
-                    return Ok(student);
+                return Ok(student);
             }
             else
             {
@@ -118,6 +123,7 @@ namespace TimeTrackerAPI.Controllers
         }
 
         [HttpPost("SignOutAll")]
+        [Authorize(Policy = "CanAccess_Admin")]
         public async Task<IActionResult> SignOutAll()
         {
             var signedIn = ctx.Students.Where(s => s.SignInTime.HasValue);
