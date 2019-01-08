@@ -28,6 +28,18 @@ namespace TimeTrackerAPI.Models
             }
         }
 
+        public ICollection<string> Messages {
+            get
+            {
+                var messages = new List<string>();
+                foreach(var message in StudentMessages)
+                {
+                    messages.Add(message.Message.MessageText);
+                }
+                return messages;
+            }
+        }
+
         public ICollection<StudentTime> StudentTimes { get; set; }
 
         public ICollection<StudentMessage> StudentMessages { get; set; }
