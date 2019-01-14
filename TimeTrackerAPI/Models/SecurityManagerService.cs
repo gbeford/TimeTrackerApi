@@ -38,12 +38,11 @@ namespace TimeTrackerAPI.Security
             return ret;
         }
 
-        public List<AppUserClaim> GetUserTypes(AppUser authUser)
+        public List<AppUserClaim> GetUserClaims(AppUser authUser)
         {
             List<AppUserClaim> list = new List<AppUserClaim>();
             try
             {
-
                 list = db.ClaimTypes.Where(
                      u => u.UserId == authUser.UserId).ToList();
 
@@ -68,8 +67,12 @@ namespace TimeTrackerAPI.Security
 
             // add custom claim
             jwtClaims.Add(new Claim("isAuthenticated", authUser.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("CanAccess_Admin", authUser.CanAccess_Admin.ToString().ToLower()));
-            jwtClaims.Add(new Claim("CanAccess_Student", authUser.CanAccess_Student.ToString().ToLower()));
+
+            // Add custom claims from the Claims array
+            foreach (var claim in authUser.Claims)
+            {
+                jwtClaims.Add(new Claim(claim.ClaimType, claim.ClaimValue));
+            }
 
             // Create the JwtSecurityToken object
             var token = new JwtSecurityToken(
@@ -87,31 +90,15 @@ namespace TimeTrackerAPI.Security
         public AppUserAuth BuildUserAuthObject(AppUser authUser)
         {
             AppUserAuth ret = new AppUserAuth();
-            List<AppUserClaim> roleTypes = new List<AppUserClaim>();
+            List<AppUserClaim> claims = new List<AppUserClaim>();
 
             // Set User Properties
             ret.UserName = authUser.UserName;
             ret.IsAuthenticated = true;
             ret.BearerToken = new Guid().ToString();
 
-            // Get all types for this user
-            roleTypes = GetUserTypes(authUser);
-
-            // Loop through all types and
-            // set properties of user object
-            foreach (AppUserClaim type in roleTypes)
-            {
-                try
-                {
-                    // ToDO check data tyep of typeValue
-                    typeof(AppUserAuth).GetProperty(type.ClaimType)
-                    .SetValue(ret, Convert.ToBoolean(type.ClaimValue), null);
-                }
-                catch
-                {
-
-                }
-            }
+            // Get all claims for this user
+            ret.Claims = GetUserClaims(authUser);
             ret.BearerToken = BuildJwtToken(ret);
 
             return ret;

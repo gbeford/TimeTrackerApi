@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TimeTrackerAPI.Models
 {
     public class AppUserAuth
@@ -12,8 +14,7 @@ namespace TimeTrackerAPI.Models
         public string UserName { get; set; }
         public string BearerToken { get; set; }
         public bool IsAuthenticated { get; set; }
-        public bool CanAccess_Student { get; set; }
-        public bool CanAccess_Admin { get; set; }
+        public List<AppUserClaim> Claims { get; set; }
 
 
     }

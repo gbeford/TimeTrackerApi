@@ -67,7 +67,7 @@ namespace TimeTrackerAPI
             });
             services.AddAuthorization(options =>
             {
-                // Note: the claim tpe and value are case-sensitive
+                // Note: the claim type and value are case-sensitive
                 options.AddPolicy("CanAccess_Admin", policy =>  // must match what you use in controller
                 policy.RequireClaim("CanAccess_Admin", "true"));  // claim and value must match exaclty whats in the user claim table
             });

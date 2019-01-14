@@ -6,7 +6,7 @@ namespace TimeTrackerAPI.Security
     public interface ISecurityManagerService
     {
         AppUserAuth ValidateUser(AppUser user);
-        List<AppUserClaim> GetUserTypes(AppUser authUser);
+        List<AppUserClaim> GetUserClaims(AppUser authUser);
         AppUserAuth BuildUserAuthObject(AppUser authUser);
 
 
