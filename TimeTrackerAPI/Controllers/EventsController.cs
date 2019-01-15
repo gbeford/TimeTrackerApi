@@ -31,7 +31,7 @@ namespace TimeTrackerAPI.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(int id, Event event)
+        public async Task<IActionResult> PutEvent(int id, Event theEvent)
         {
 
             var oldEvent = await ctx.Events.FindAsync(id);
@@ -42,16 +42,16 @@ namespace TimeTrackerAPI.Controllers
 
             try
             {
-                oldEvent.Description = event.Description;
-        ctx.Update(oldEvent);
+                oldEvent.Description = theEvent.Description;
+                ctx.Update(oldEvent);
                 await ctx.SaveChangesAsync();
-    }
+            }
             catch (DbUpdateConcurrencyException)
             {
                 if (!EventExists(id))
                 {
                     return NotFound();
-}
+                }
                 else
                 {
                     throw;
@@ -63,45 +63,46 @@ namespace TimeTrackerAPI.Controllers
 
         // POST: api/Events
         [HttpPost]
-public async Task<IActionResult> PostEvent(Event event)
-{
-    try
-    {
-        ctx.Events.Add(event);
-        await ctx.SaveChangesAsync();
+        public async Task<IActionResult> PostEvent(Event theEvent)
+        {
+            try
+            {
+                ctx.Events.Add(theEvent);
+                await ctx.SaveChangesAsync();
 
-        return CreatedAtAction("GetEvents", new { id = event.EventID }, event);
-    }
-    catch (Exception ex)
-    {
-        return BadRequest(ex);
-    }
-}
+                return CreatedAtAction("GetEvents", new { id = theEvent.EventID }, theEvent);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
 
-// // DELETE: api/Events/5
-// [HttpDelete("{id}")]
-// public async Task<IActionResult> DeleteEvent(int id)
-// {
-//     if (!ModelState.IsValid)
-//     {
-//         return BadRequest(ModelState);
-//     }
+        // // DELETE: api/Events/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-//     var event = await ctx.Events.FindAsync(id);
-//     if (event == null)
-//             {
-//         return NotFound();
-//     }
+            var theEvent = await ctx.Events.FindAsync(id);
+            if (theEvent == null)
+                    {
+                return NotFound();
+            }
 
-//     ctx.Messages.Remove(event);
-//     await ctx.SaveChangesAsync();
+            ctx.Events.Remove(theEvent);
+            await ctx.SaveChangesAsync();
 
-//     return Ok(event);
-// }
-private bool EventExists(int id)
-{
-    return ctx.Events.Any(e => e.EventID == id);
-}
+            return Ok(theEvent);
+        }
+
+        private bool EventExists(int id)
+        {
+            return ctx.Events.Any(e => e.EventID == id);
+        }
 
     }
 }
