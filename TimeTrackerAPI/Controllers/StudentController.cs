@@ -15,7 +15,7 @@ namespace TimeTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // to make all api's require auth
+    // [Authorize] // to make all api's require auth
     public class StudentController : Controller
     {
 
@@ -45,7 +45,7 @@ namespace TimeTrackerAPI.Controllers
 
         public async Task<ActionResult<Student>> Get(int id)
         {
-            var student = await ctx.Students.SingleOrDefaultAsync(s => s.StudentId == id);
+            var student = await ctx.Students.SingleOrDefaultAsync(s => s.Id == id);
             if (student == null)
             {
                 return NotFound();
