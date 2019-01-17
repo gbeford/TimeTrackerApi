@@ -26,7 +26,6 @@ namespace TimeTrackerAPI.Controllers
         public async Task<IEnumerable<Event>> Get()
         {
             var events = ctx.Events;
-            var m = ctx.Events.Aggregate((i, j) => i.SortOrder > j.SortOrder ? i : j);
             return await events.OrderBy(e => e.SortOrder).ToListAsync();
         }
 
