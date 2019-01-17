@@ -26,7 +26,24 @@ namespace TimeTrackerAPI.Controllers
         public async Task<IEnumerable<Event>> Get()
         {
             var events = ctx.Events;
+            var m = ctx.Events.Aggregate((i, j) => i.SortOrder > j.SortOrder ? i : j);
             return await events.OrderBy(e => e.SortOrder).ToListAsync();
+        }
+
+
+        // GET: api/Event/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+
+            var theEvent = await ctx.Events.FindAsync(id);
+
+            if (theEvent == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(theEvent);
         }
 
         // PUT: api/Events/5
@@ -67,10 +84,14 @@ namespace TimeTrackerAPI.Controllers
         {
             try
             {
+                var nextSort = ctx.Events.OrderByDescending(o => o.SortOrder).FirstOrDefault();
+
+                theEvent.SortOrder = nextSort.SortOrder + 1;
+
                 ctx.Events.Add(theEvent);
                 await ctx.SaveChangesAsync();
 
-                return CreatedAtAction("GetEvents", new { id = theEvent.EventID }, theEvent);
+                return CreatedAtAction("Get", new { id = theEvent.EventID }, theEvent);
             }
             catch (Exception ex)
             {
