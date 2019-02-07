@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TimeTrackerAPI.Models
 {
-    public class StudentHours
+    public class AllStudentHours
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

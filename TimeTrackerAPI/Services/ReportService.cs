@@ -32,12 +32,12 @@ namespace TimeTrackerAPI.Services
             //         Asc
 
 
-            var hours =
-            from Student in students
-            join StudentTime in times on Student.ID  equals StudentTime.StudentID
-            (w => w.CreateDateTime >= CreateDateTime && w.CreateDateTime <= CreateDateTime)
-            group Student by Student.FirstName, Student.LastName, StudentTime.CreateDateTime
-            orderby Student.LastName;
+            // var hours =
+            // from Student in students
+            // join StudentTime in times on Student.ID  equals StudentTime.StudentID
+            // (w => w.CreateDateTime >= CreateDateTime && w.CreateDateTime <= CreateDateTime)
+            // group Student by Student.FirstName, Student.LastName, StudentTime.CreateDateTime
+            // orderby Student.LastName;
 
             throw new NotImplementedException();
         }
