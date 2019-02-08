@@ -23,11 +23,11 @@ namespace TimeTrackerAPI.Controllers
         // Get event list
         // GET api/values
         [HttpGet]
-        public async Task<IEnumerable<StudentHours>> GetStudentHours()
-        {
-            var studentHours = ctx.StudentHours;
-            return studentHours;
-        }
+        // public async Task<IEnumerable<StudentHours>> GetStudentHours()
+        // {
+            //var studentHours = ctx.StudentHours;
+            // return studentHours;
+        //}
 
 
         // GET: api/Event/5
