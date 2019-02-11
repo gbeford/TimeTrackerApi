@@ -79,14 +79,10 @@ namespace TimeTrackerAPI.Controllers
 
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> PostEvent(Apparel Apparel)
+        public async Task<IActionResult> Post(Apparel Apparel)
         {
             try
             {
-                // var nextSort = ctx.Apparels.OrderByDescending(o => o.SortOrder).FirstOrDefault();
-
-                // Apparel.SortOrder = nextSort.SortOrder + 1;
-
                 ctx.Apparels.Add(Apparel);
                 await ctx.SaveChangesAsync();
 
