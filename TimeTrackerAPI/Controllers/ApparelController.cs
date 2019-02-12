@@ -20,17 +20,17 @@ namespace TimeTrackerAPI.Controllers
             ctx = context;
         }
 
-        // Get event list
+        // Get Apparel list
         // GET api/values
         [HttpGet]
         public async Task<IEnumerable<Apparel>> Get()
         {
             var apparel = ctx.Apparels;
-            return apparel.ToList();
+            return await apparel.ToListAsync();
         }
 
 
-        // GET: api/Event/5
+        // GET: api/Apparel/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -45,9 +45,9 @@ namespace TimeTrackerAPI.Controllers
             return Ok(apparel);
         }
 
-        // PUT: api/Events/5
+        // PUT: api/Apparel/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(int id, Apparel Apparel)
+        public async Task<IActionResult> Put(int id, Apparel Apparel)
         {
 
             var oldApparel = await ctx.Apparels.FindAsync(id);
@@ -77,7 +77,7 @@ namespace TimeTrackerAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Events
+        // POST: api/Apparel
         [HttpPost]
         public async Task<IActionResult> Post(Apparel Apparel)
         {
@@ -94,22 +94,22 @@ namespace TimeTrackerAPI.Controllers
             }
         }
 
-        // // DELETE: api/Events/5
+        // DELETE: api/Apparel/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var apparel = await ctx.Events.FindAsync(id);
+            var apparel = await ctx.Apparels.FindAsync(id);
             if (apparel == null)
                     {
                 return NotFound();
             }
 
-            ctx.Events.Remove(apparel);
+            ctx.Apparels.Remove(apparel);
             await ctx.SaveChangesAsync();
 
             return Ok(apparel);

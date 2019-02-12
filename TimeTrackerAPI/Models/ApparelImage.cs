@@ -9,8 +9,10 @@ namespace TimeTrackerAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ApparelImageId { get; set; }
+        public string FileName { get; set; }
         public string ImageName { get; set; }
-        public Byte [] Image{ get; set; }
+        public Byte [] Image { get; set; }
+        public string ContentType { get; set; }
     }
 }
 

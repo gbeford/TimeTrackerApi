@@ -20,6 +20,8 @@ namespace TimeTrackerAPI.Models
         public DbSet<AppUser> LoginUsers { get; set; }
         public DbSet<AppUserClaim> ClaimTypes { get; set; }
         public DbSet<Apparel> Apparels { get; set; }
+        public DbSet<ApparelImage> ApparelImages { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
