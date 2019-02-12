@@ -23,13 +23,27 @@ namespace TimeTrackerAPI.Controllers
             ctx = context;
         }
 
-        // Get Apparel Image list
+        // Get Apparel Images
         // GET api/values
         [HttpGet]
         public async Task<IEnumerable<ApparelImage>> Get()
         {
             var image = ctx.ApparelImages;
             return await image.ToListAsync();
+        }
+
+        // GET api/ApparelImage/GetImageNames
+        [HttpGet ("GetImageNames")]
+        public async Task<IEnumerable<ApparelImageName>> GetImageNames()
+        {
+            var images = ctx.ApparelImages
+             .Select(res => new ApparelImageName()
+              {
+                 ApparelImageId = res.ApparelImageId,
+                 ImageName = res.ImageName
+              });
+
+            return await images.ToListAsync();
         }
 
 

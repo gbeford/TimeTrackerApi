@@ -14,5 +14,13 @@ namespace TimeTrackerAPI.Models
         public Byte [] Image { get; set; }
         public string ContentType { get; set; }
     }
+
+    public class ApparelImageName{
+        public int ApparelImageId { get; set; }
+        public string ImageName { get; set; }
+    }
+
 }
+
+
 
