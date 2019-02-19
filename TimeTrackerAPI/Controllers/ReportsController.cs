@@ -25,8 +25,8 @@ namespace TimeTrackerAPI.Controllers
         [HttpGet]
         // public async Task<IEnumerable<StudentHours>> GetStudentHours()
         // {
-            //var studentHours = ctx.StudentHours;
-            // return studentHours;
+        //var studentHours = ctx.StudentHours;
+        // return studentHours;
         //}
 
 
@@ -45,9 +45,20 @@ namespace TimeTrackerAPI.Controllers
             return Ok(theEvent);
         }
 
+        [HttpGet("Attendance")]
+        public IActionResult Attendance(DateTime startDate, DateTime endDate)
+        {
+            var results = ctx.Students
 
+                .OrderBy(s => s.StudentId)
+                .SelectMany(w => w.StudentTimes, (student, times) =>
+                     new { student.StudentId, student.FirstName, student.LastName, times })
+                      .Where(s => s.times.CreateDateTime >= startDate && s.times.CreateDateTime <= endDate);
+            return Ok(results.ToList());
+        }
 
-
+        //     a.SelectMany(i => b, (i, j) => new { i = i, j = j
+        // }).Where(anon => anon.i > anon.j).Select(anon => anon.i + anon.j)
 
     }
 }
