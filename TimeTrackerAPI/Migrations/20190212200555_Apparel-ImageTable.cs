@@ -19,7 +19,9 @@ namespace TimeTrackerAPI.Migrations
                 columns: table => new
                 {
                     ApparelImageId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+
                     ImageName = table.Column<string>(nullable: true),
                     Image = table.Column<byte[]>(nullable: true),
                     ContentType = table.Column<string>(nullable: true)

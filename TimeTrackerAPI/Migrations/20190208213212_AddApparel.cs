@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TimeTrackerAPI.Migrations
 {
@@ -12,7 +13,8 @@ namespace TimeTrackerAPI.Migrations
                 columns: table => new
                 {
                     ApparelId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Item = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),
