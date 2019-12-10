@@ -15,11 +15,10 @@ namespace TimeTrackerAPI.Controllers
 
         private readonly TimeTrackerDbContext ctx;
 
-        public ApparelController(TimeTrackerDbContext context)
+        public OrderController(TimeTrackerDbContext context)
         {
             ctx = context;
         }
-
 
         // Get order 
         // GET api/values
@@ -39,15 +38,13 @@ namespace TimeTrackerAPI.Controllers
                 ctx.Orders.Add(Order);
                 await ctx.SaveChangesAsync();
 
-                return CreatedAtAction("Get", new { id = Order.OrderlId }, Order);
+                return CreatedAtAction("Get", new { id = Order.OrderId }, Order);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-
-
 
     }
 }

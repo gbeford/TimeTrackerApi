@@ -22,7 +22,9 @@ namespace TimeTrackerAPI.Models
         public decimal? NameCharge { get; set; }
         public string Filename { get; set; }
         public string Image { get; set; }
-        public string ContentType { get; set; }
+        public string ContentType { get; set; } // Image Type
+        public Boolean ShowItem { get; set; }
+        public Boolean ShowGenderSize { get; set; }
 
     }
 }
