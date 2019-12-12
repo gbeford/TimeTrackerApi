@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -8,40 +9,7 @@ namespace TimeTrackerAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "StudentTimeID",
-                table: "StudentTimes",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "Students",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "MessageID",
-                table: "Messages",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "EventID",
-                table: "Events",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "ApparelId",
-                table: "Apparels",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
             migrationBuilder.AddColumn<bool>(
                 name: "ShowGenderSize",
@@ -55,18 +23,13 @@ namespace TimeTrackerAPI.Migrations
                 nullable: false,
                 defaultValue: false);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "ApparelImageId",
-                table: "ApparelImages",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     OrderId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     StudentId = table.Column<int>(nullable: false),
                     StudentName = table.Column<string>(nullable: true),
@@ -103,47 +66,7 @@ namespace TimeTrackerAPI.Migrations
                 name: "ShowItem",
                 table: "Apparels");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "StudentTimeID",
-                table: "StudentTimes",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "Students",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "MessageID",
-                table: "Messages",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "EventID",
-                table: "Events",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "ApparelId",
-                table: "Apparels",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "ApparelImageId",
-                table: "ApparelImages",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
         }
     }
 }

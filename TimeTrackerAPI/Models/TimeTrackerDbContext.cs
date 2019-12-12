@@ -22,6 +22,7 @@ namespace TimeTrackerAPI.Models
         public DbSet<Apparel> Apparels { get; set; }
         public DbSet<ApparelImage> ApparelImages { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
