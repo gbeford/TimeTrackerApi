@@ -38,7 +38,7 @@ namespace TimeTrackerAPI.Controllers
                 ctx.Orders.Add(Order);
                 await ctx.SaveChangesAsync();
 
-                return CreatedAtAction("Get", new { id = Order.OrderId }, Order);
+                return Ok(Order);
             }
             catch (Exception ex)
             {
