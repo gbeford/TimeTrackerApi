@@ -29,6 +29,19 @@ namespace TimeTrackerAPI.Controllers
             return await order.ToListAsync();
         }
 
+        // Get order 
+        // GET api/values
+        [HttpGet("{OrderId}")]
+        public async Task<ActionResult<Order>> Get(int OrderId)
+        {
+            var order = await ctx.Orders.Include(i => i.Items).FirstOrDefaultAsync(o => o.OrderId == OrderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return order;
+        }
+
         // POST: api/Order
         [HttpPost]
         public async Task<IActionResult> Post(Order Order)
