@@ -20,7 +20,7 @@ namespace TimeTrackerAPI.Controllers
             ctx = context;
         }
 
-        // Get order 
+        // Get order
         // GET api/values
         [HttpGet]
         public async Task<IEnumerable<Order>> Get()
@@ -29,12 +29,12 @@ namespace TimeTrackerAPI.Controllers
             return await order.ToListAsync();
         }
 
-        // Get order 
+        // Get order
         // GET api/values
         [HttpGet("{OrderId}")]
         public async Task<ActionResult<Order>> Get(int OrderId)
         {
-            var order = await ctx.Orders.Include(i => i.Items).FirstOrDefaultAsync(o => o.OrderId == OrderId);
+            var order = await ctx.Orders.Include(i => i.Items).ThenInclude(i => i.Apparel).FirstOrDefaultAsync(o => o.OrderId == OrderId);
             if (order == null)
             {
                 return NotFound();
@@ -48,6 +48,8 @@ namespace TimeTrackerAPI.Controllers
         {
             try
             {
+                Order.Items.ForEach(s => s.Apparel = ctx.Apparels.Single(a => a.ApparelId == s.ApparelId));
+
                 ctx.Orders.Add(Order);
                 await ctx.SaveChangesAsync();
 

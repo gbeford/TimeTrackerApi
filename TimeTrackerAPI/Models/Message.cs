@@ -14,7 +14,7 @@ namespace TimeTrackerAPI.Models
         [Required]
         public string MessageText { get; set; }
 
-        public ICollection<StudentMessage> StudentMessages { get; set; }
+        public virtual ICollection<StudentMessage> StudentMessages { get; set; }
 
         public Message()
         {

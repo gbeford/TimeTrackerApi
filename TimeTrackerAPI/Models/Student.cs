@@ -40,9 +40,9 @@ namespace TimeTrackerAPI.Models
             }
         }
 
-        public ICollection<StudentTime> StudentTimes { get; set; }
+        public virtual ICollection<StudentTime> StudentTimes { get; set; }
 
-        public ICollection<StudentMessage> StudentMessages { get; set; }
+        public virtual ICollection<StudentMessage> StudentMessages { get; set; }
 
         public Student()
         {

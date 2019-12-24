@@ -11,7 +11,8 @@ namespace TimeTrackerAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-         public int ApparelId { get; set; }
+        public int ApparelId { get; set; }
+        public Apparel Apparel { get; set; }
         public string ItemName { get; set; }
         public string ItemType { get; set; }
         public string Gender { get; set; }
@@ -20,7 +21,7 @@ namespace TimeTrackerAPI.Models
         public float Price { get; set; }
         public decimal? UpCharge { get; set; }
         public decimal? NameCharge { get; set; }
-         public Boolean? NameOnSleeve { get; set; }
+        public Boolean? NameOnSleeve { get; set; }
         public string SleeveName { get; set; }
     }
 }
