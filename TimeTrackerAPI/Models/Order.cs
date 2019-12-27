@@ -14,7 +14,6 @@ namespace TimeTrackerAPI.Models
         public string StudentName { get; set; }
         public DateTime OrderDate { get; set; }
         public virtual List<OrderItem> Items { get; set; }
-        public decimal ItemsTotaltal { get; set; }
         public decimal GrossTotal { get; set; }
     }
 }

@@ -13,8 +13,6 @@ namespace TimeTrackerAPI.Models
         public int Id { get; set; }
         public int ApparelId { get; set; }
         public Apparel Apparel { get; set; }
-        public string ItemName { get; set; }
-        public string ItemType { get; set; }
         public string Gender { get; set; }
         public string Size { get; set; }
         public int? Quantity { get; set; }
