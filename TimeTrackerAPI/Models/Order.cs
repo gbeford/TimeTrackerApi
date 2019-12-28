@@ -15,5 +15,6 @@ namespace TimeTrackerAPI.Models
         public DateTime OrderDate { get; set; }
         public virtual List<OrderItem> Items { get; set; }
         public decimal GrossTotal { get; set; }
+        public bool Paid{ get; set; }
     }
 }
