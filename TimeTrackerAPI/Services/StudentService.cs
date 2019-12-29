@@ -42,10 +42,12 @@ namespace TimeTrackerAPI.Services
                     student.SignInTime = null;
                     student.SignInEventId = null;
 
-                    var timeRecord = new StudentTime();
-                    timeRecord.CheckIn = signin;
-                    timeRecord.CheckOut = admin ? signin.AddMinutes(1) : DateTime.Now;
-                    timeRecord.CreateDateTime = DateTime.Now;
+                    var timeRecord = new StudentTime
+                    {
+                        CheckIn = signin,
+                        CheckOut = admin ? signin.AddMinutes(1) : DateTime.Now,
+                        CreateDateTime = DateTime.Now
+                    };
                     timeRecord.TotalHrs = Convert.ToDecimal((timeRecord.CheckOut - signin).TotalHours);
                     timeRecord.EventId = eventId;
                     student.StudentTimes.Add(timeRecord);

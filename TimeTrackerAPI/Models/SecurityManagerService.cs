@@ -61,12 +61,14 @@ namespace TimeTrackerAPI.Security
                 Encoding.UTF8.GetBytes(_settings.Key));
 
             //Create standard JWT claims
-            List<Claim> jwtClaims = new List<Claim>();
-            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, authUser.UserName));
-            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            List<Claim> jwtClaims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, authUser.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
-            // add custom claim
-            jwtClaims.Add(new Claim("isAuthenticated", authUser.IsAuthenticated.ToString().ToLower()));
+                // add custom claim
+                new Claim("isAuthenticated", authUser.IsAuthenticated.ToString().ToLower())
+            };
 
             // Add custom claims from the Claims array
             foreach (var claim in authUser.Claims)
@@ -89,16 +91,17 @@ namespace TimeTrackerAPI.Security
 
         public AppUserAuth BuildUserAuthObject(AppUser authUser)
         {
-            AppUserAuth ret = new AppUserAuth();
-            List<AppUserClaim> claims = new List<AppUserClaim>();
+            AppUserAuth ret = new AppUserAuth
+            {
 
-            // Set User Properties
-            ret.UserName = authUser.UserName;
-            ret.IsAuthenticated = true;
-            ret.BearerToken = new Guid().ToString();
+                // Set User Properties
+                UserName = authUser.UserName,
+                IsAuthenticated = true,
+                BearerToken = new Guid().ToString(),
 
-            // Get all claims for this user
-            ret.Claims = GetUserClaims(authUser);
+                // Get all claims for this user
+                Claims = GetUserClaims(authUser)
+            };
             ret.BearerToken = BuildJwtToken(ret);
 
             return ret;

@@ -17,10 +17,9 @@ namespace TimeTrackerAPI.Controllers
         [HttpPost("Login_User")]
         public IActionResult Login([FromBody]AppUser user)
         {
-            IActionResult ret = null;
-            AppUserAuth auth = new AppUserAuth();
+            IActionResult ret;;
 
-            auth = svcMgr.ValidateUser(user);
+            var auth = svcMgr.ValidateUser(user);
             if (auth.IsAuthenticated)
             {
                 ret = StatusCode(StatusCodes.Status200OK, auth);

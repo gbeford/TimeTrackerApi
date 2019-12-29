@@ -143,12 +143,13 @@ namespace TimeTrackerAPI
         }
         public JwtSettings GetJwtSettings()
         {
-            JwtSettings settings = new JwtSettings();
-
-            settings.Key = Configuration["JwtSettings:key"];
-            settings.Audience = Configuration["JwtSettings:audience"];
-            settings.Issuer = Configuration["JwtSettings:issuer"];
-            settings.MinutesToExpiration = Convert.ToInt32(Configuration["JwtSettings:MinutesToExpiration"]);
+            JwtSettings settings = new JwtSettings
+            {
+                Key = Configuration["JwtSettings:key"],
+                Audience = Configuration["JwtSettings:audience"],
+                Issuer = Configuration["JwtSettings:issuer"],
+                MinutesToExpiration = Convert.ToInt32(Configuration["JwtSettings:MinutesToExpiration"])
+            };
 
             return settings;
         }
