@@ -24,7 +24,8 @@ namespace TimeTrackerAPI.Models
         public string Image { get; set; }
         public string ContentType { get; set; } // Image Type
         public Boolean ShowItem { get; set; }
-        public Boolean ShowGenderSize { get; set; }
+        public Boolean ShowGender { get; set; }
+        public Boolean ShowSize { get; set; }
 
     }
 }
