@@ -20,15 +20,23 @@ namespace TimeTrackerAPI.Controllers
             ctx = context;
         }
 
-        // Get Apparel list
+        // Get Apparel items that can be shown
         // GET api/values
         [HttpGet]
         public async Task<IEnumerable<Apparel>> Get()
         {
             var apparel = ctx.Apparels;
-            return await apparel.ToListAsync();
+            return await apparel.Where(a => a.ShowItem).ToListAsync();
         }
 
+        // Get All Apparel items
+        // GET api/values
+        [HttpGet("GetAll")]
+        public async Task<IEnumerable<Apparel>> GetAll()
+        {
+            var apparel = ctx.Apparels;
+            return await apparel.ToListAsync();
+        }
 
         // GET: api/Apparel/5
         [HttpGet("{id}")]
