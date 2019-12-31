@@ -29,6 +29,30 @@ namespace TimeTrackerAPI.Controllers
             return await order.ToListAsync();
         }
 
+        [HttpGet("{searchBy}/{searchValue}")]
+        public async Task<IEnumerable<Order>> Get(string searchBy, string searchValue)
+        {
+            var results = ctx.Orders.Where(o => !o.Paid);
+
+            switch (searchBy.ToLower())
+            {
+                // case "all":
+                //     results = ctx.Orders.Where(o => !o.Paid);
+                //     break;
+                case "name":
+                    searchValue = searchValue.ToLower();
+                    results = results.Where(o => o.StudentName.ToLower().Contains(searchValue));
+                    break;
+                case "oid":
+                    results = results.Where(o => o.OrderId == Convert.ToInt32(searchValue));
+                    break;
+                case "sid":
+                    results = results.Where(o => o.StudentId == Convert.ToInt32(searchValue));
+                    break;
+            }
+            return await results.ToListAsync();
+        }
+
         // Get order
         // GET api/values
         [HttpGet("{OrderId}")]
