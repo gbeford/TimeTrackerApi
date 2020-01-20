@@ -85,5 +85,26 @@ namespace TimeTrackerAPI.Controllers
             }
         }
 
+        [HttpPost("MarkPaid/{OrderId}")]
+        public async Task<IActionResult> MarkPaid(int OrderId)
+        {
+            try
+            {
+                var order = await ctx.Orders.FirstOrDefaultAsync(o => o.OrderId == OrderId);
+                if (order != null)
+                {
+                    order.Paid = true;
+                    ctx.Update(order);
+                    await ctx.SaveChangesAsync();
+                    return Ok(true);
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
     }
 }

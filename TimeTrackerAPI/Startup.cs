@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Authorization;
 using TimeTrackerAPI.Models;
 using TimeTrackerAPI.Security;
 using TimeTrackerAPI.Services;
@@ -105,7 +98,7 @@ namespace TimeTrackerAPI
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowAnyOrigin()
+                        .WithOrigins("http://localhost:4200", "http://timetracker.team467.com","http://timetracker-api.team467.com")
                         .AllowCredentials()
                         .Build()
                 );
