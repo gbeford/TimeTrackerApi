@@ -85,8 +85,8 @@ namespace TimeTrackerAPI.Controllers
             }
         }
 
-        [HttpPost("MarkPaid/{OrderId}")]
-        public async Task<IActionResult> MarkPaid(int OrderId)
+        [HttpPost("MarkPaid")]
+        public async Task<IActionResult> MarkPaid([FromBody] int OrderId)
         {
             try
             {
