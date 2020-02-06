@@ -26,6 +26,8 @@ namespace TimeTrackerAPI.Models
         public Boolean ShowItem { get; set; }
         public Boolean ShowGender { get; set; }
         public Boolean ShowSize { get; set; }
+        public Boolean ShowXS { get; set; }
+        public Boolean ShowYXL { get; set; }
 
     }
 }
