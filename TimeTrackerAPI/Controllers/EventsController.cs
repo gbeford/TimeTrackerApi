@@ -116,7 +116,7 @@ namespace TimeTrackerAPI.Controllers
             ctx.Events.Remove(theEvent);
             await ctx.SaveChangesAsync();
 
-            return Ok(theEvent);
+            return Ok(true);
         }
 
         private bool EventExists(int id)

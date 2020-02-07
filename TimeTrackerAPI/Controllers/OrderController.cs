@@ -85,6 +85,34 @@ namespace TimeTrackerAPI.Controllers
             }
         }
 
+         // // DELETE: api/Order/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var theOrder= await ctx.Orders.Include(i => i.Items).FirstAsync(f => f.OrderId == id);
+            if (theOrder == null)
+                    {
+                return NotFound();
+            }
+
+            ctx.Orders.Remove(theOrder);
+            await ctx.SaveChangesAsync();
+
+            return Ok(true);
+        }
+
+        private bool OrderExists(int id)
+        {
+            return ctx.Orders.Any(e => e.OrderId == id);
+        }
+
+    
+
         [HttpPost("MarkPaid")]
         public async Task<IActionResult> MarkPaid([FromBody] int OrderId)
         {
@@ -105,6 +133,8 @@ namespace TimeTrackerAPI.Controllers
                 return BadRequest(ex);
             }
         }
+
+
 
     }
 }
