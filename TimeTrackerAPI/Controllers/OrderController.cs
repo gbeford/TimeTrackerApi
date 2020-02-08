@@ -111,7 +111,7 @@ namespace TimeTrackerAPI.Controllers
             return ctx.Orders.Any(e => e.OrderId == id);
         }
 
-    
+
 
         [HttpPost("MarkPaid")]
         public async Task<IActionResult> MarkPaid([FromBody] int OrderId)
@@ -134,7 +134,35 @@ namespace TimeTrackerAPI.Controllers
             }
         }
 
+        [HttpGet("OrderReport")]
+        public async Task<IActionResult> OrderReport()
+        {
+            var orders = await ctx.Orders.Include(i => i.Items).ThenInclude(i => i.Apparel).OrderBy(o => o.StudentId).ToListAsync();
+            var allOrders = new List<OrderDetail>();
 
+            foreach (var order in orders)
+            {
+                foreach(var item in order.Items)
+                {
+                    var o = new OrderDetail()
+                    {
+                        GrossTotal = order.GrossTotal,
+                        Item = item.Apparel.Item,
+                        NameCharge = item.NameCharge ?? 0,
+                        NameOnSleeve = item.NameOnSleeve ?? false,
+                        Paid = order.Paid,
+                        Price = Convert.ToDecimal(item.Price),
+                        Quantity = item.Quantity ?? 0,
+                        Size = item.Size,
+                        SleeveName = item.SleeveName,
+                        StudentName = order.StudentName,
+                        UpCharge = Convert.ToDecimal(item.UpCharge)
+                    };
+                    allOrders.Add(o);
+                }
+            }
+            return Ok(allOrders);
+        }
 
     }
 }
