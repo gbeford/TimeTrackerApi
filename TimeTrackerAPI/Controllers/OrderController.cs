@@ -146,6 +146,7 @@ namespace TimeTrackerAPI.Controllers
                 {
                     var o = new OrderDetail()
                     {
+                        OrderNumber = order.OrderId,
                         GrossTotal = order.GrossTotal,
                         Item = item.Apparel.Item,
                         NameCharge = item.NameCharge ?? 0,

@@ -2,6 +2,7 @@ namespace TimeTrackerAPI.Models
 {
     public class OrderDetail
     {
+        public int OrderNumber { get; set; }
         public string StudentName { get; set; }
         public string Item { get; set; }
         public decimal GrossTotal { get; set; }

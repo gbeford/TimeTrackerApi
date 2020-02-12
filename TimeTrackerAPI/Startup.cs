@@ -58,6 +58,17 @@ namespace TimeTrackerAPI
                         settings.MinutesToExpiration)
                 };
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:4200", "http://timetracker.team467.com", "http://timetracker-api.team467.com")
+                        .AllowCredentials()
+                        .Build()
+                );
+            });
+
             services.AddAuthorization(options =>
             {
                 // Note: the claim type and value are case-sensitive
@@ -93,16 +104,6 @@ namespace TimeTrackerAPI
                     services.AddDbContext<TimeTrackerDbContext>(options => options.UseNpgsql(connectString));
                     break;
             }
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .WithOrigins("http://localhost:4200", "http://timetracker.team467.com","http://timetracker-api.team467.com")
-                        .AllowCredentials()
-                        .Build()
-                );
-            });
 
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ISecurityManagerService, SecurityManagerService>();
@@ -132,7 +133,7 @@ namespace TimeTrackerAPI
             app.UseAuthentication();
             app.UseMvc();
 
-            context.Database.Migrate();
+            // context.Database.Migrate();
         }
         public JwtSettings GetJwtSettings()
         {
